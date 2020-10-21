@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  ##### LoadGenerator  #####
+  load_generator:
+    build:
+      context: ./LoadGenerator
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+
+  ##### LoadProcessor #####
+  load_processor:
+    build:
+      context: ./LoadProcessor
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+
+networks:
+  default:
+    external:
+      name: messaging_patterns

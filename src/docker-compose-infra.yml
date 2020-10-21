@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+  ##### Rabbitmq #####
+  rabbitmq:
+    image: "rabbitmq:3.8.9-management"
+    container_name: "rabbitmq_service"
+    hostname: "rabbitmq_service"
+    environment:
+      - RABBITMQ_DEFAULT_USER=demo
+      - RABBITMQ_DEFAULT_PASS=demo
+      - RABBITMQ_ERLANG_COOKIE=demo_cookie_1234
+    volumes:
+      - ./rabbitmq_enabled_plugins:/etc/rabbitmq/enabled_plugins
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  ##### Redis #####
+  redis:
+    container_name: "redis_service"
+    image: "redis:6.0.8-alpine"
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+
+  ##### Seq #####
+  seq:
+    container_name: "seq_service"
+    hostname: "seq_service"
+    image: datalust/seq:2020.2
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "8191:80"
+
+networks:
+  default:
+    name: messaging_patterns
+    driver: bridge

@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+  ##### ShowTopicPublisher  #####
+  topic_generator:
+    build:
+      context: ./ShowTopicPublisher
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+
+  ##### ShowTopicSubscriber #####
+  hulu_topic_processor:
+    build:
+      context: ./ShowTopicSubscriber
+      dockerfile: Dockerfile
+    environment: 
+      - TOPIC=hulu
+    env_file:
+      - .env
+
+  netflix_topic_processor:
+    build:
+      context: ./ShowTopicSubscriber
+      dockerfile: Dockerfile
+    environment: 
+      - TOPIC=netflix
+    env_file:
+      - .env
+
+  disneyplus_topic_processor:
+    build:
+      context: ./ShowTopicSubscriber
+      dockerfile: Dockerfile
+    environment: 
+      - TOPIC=disneyplus
+    env_file:
+      - .env
+
+networks:
+  default:
+    external:
+      name: messaging_patterns

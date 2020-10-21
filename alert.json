@@ -1,0 +1,48 @@
+{
+  "schemaId": "azureMonitorCommonAlertSchema",
+  "data": {
+    "essentials": {
+      "alertId": "/subscriptions/acbd7f8d-5fd2-4fc6-9a12-3a41c947661c/providers/Microsoft.AlertsManagement/alerts/446fad05-936f-4fd5-98ac-750c7bccdcde",
+      "alertRule": "Queue overflowing",
+      "severity": "Sev3",
+      "signalType": "Metric",
+      "monitorCondition": "Fired",
+      "monitoringService": "Platform",
+      "alertTargetIDs": [
+        "/subscriptions/acbd7f8d-5fd2-4fc6-9a12-3a41c947661c/resourcegroups/distributed-messaging-patterns/providers/microsoft.servicebus/namespaces/messaging-patterns"
+      ],
+      "originAlertId": "acbd7f8d-5fd2-4fc6-9a12-3a41c947661c_distributed-messaging-patterns_microsoft.insights_metricAlerts_Queue overflowing_1292654575",
+      "firedDateTime": "2020-10-01T09:19:06.0269423Z",
+      "description": "",
+      "essentialsVersion": "1.0",
+      "alertContextVersion": "1.0"
+    },
+    "alertContext": {
+      "properties": null,
+      "conditionType": "SingleResourceMultipleMetricCriteria",
+      "condition": {
+        "windowSize": "PT1M",
+        "allOf": [
+          {
+            "metricName": "ActiveMessages",
+            "metricNamespace": "Microsoft.ServiceBus/namespaces",
+            "operator": "GreaterThan",
+            "threshold": "18",
+            "timeAggregation": "Average",
+            "dimensions": [
+              {
+                "name": "ResourceId",
+                "value": "acbd7f8d-5fd2-4fc6-9a12-3a41c947661c:MESSAGING-PATTERNS"
+              },
+              { "name": "EntityName", "value": "rabbit-ingest" }
+            ],
+            "metricValue": 20.0,
+            "webTestName": null
+          }
+        ],
+        "windowStartTime": "2020-10-01T09:17:00.358Z",
+        "windowEndTime": "2020-10-01T09:18:00.358Z"
+      }
+    }
+  }
+}

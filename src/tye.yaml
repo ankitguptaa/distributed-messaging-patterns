@@ -1,0 +1,63 @@
+name: messagingpatterns
+network: messagingpatterns
+
+services:
+  - name: rabbitmq-service
+    image: "rabbitmq:3.8.9-management"
+    env:
+      - name: RABBITMQ_DEFAULT_USER
+        value: demo
+      - name: RABBITMQ_DEFAULT_PASS
+        value: demo
+      - name: RABBITMQ_ERLANG_COOKIE
+        value: demo_cookie_1234
+      - name: RABBITMQ_DEFAULT_VHOST
+        value: contoso
+      - name: RABBITMQ_NODENAME
+        value: rabbit@contoso 
+    volumes:
+      - source: ./rabbitmq_enabled_plugins
+        target: /etc/rabbitmq/enabled_plugins
+    bindings:
+      - name: serviceport
+        port: 5672
+        containerPort: 5672
+      - name: ui
+        port: 15672
+        containerPort: 15672
+        protocol: http
+    tags:
+      - infra
+      - rabbitmq
+
+  - name: redis-service
+    image: "redis:6.0.8-alpine"
+    args: "redis-server /usr/local/etc/redis/redis.conf"
+    bindings:
+      - port: 6379
+        containerPort: 6379
+    volumes:
+      - source: redis.conf
+        target: /usr/local/etc/redis/redis.conf
+    tags:
+      - infra
+      - redis
+
+  - name: activemq-artemis
+    dockerFile: Artemis.Dockerfile
+    dockerFileContext: ./
+    bindings:
+      - name: web
+        port: 8161
+        containerPort: 8161
+        protocol: http
+      - name: amqp
+        port: 5672
+        containerPort: 5672
+      - name: core
+        port: 61616
+        containerPort: 61616
+    tags:
+      - infra
+      - activemq         
+           
